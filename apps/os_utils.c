@@ -6,7 +6,7 @@
  *   文件名称：os_utils.c
  *   创 建 者：肖飞
  *   创建日期：2019年11月13日 星期三 11时13分17秒
- *   修改日期：2020年11月04日 星期三 09时18分44秒
+ *   修改日期：2020年11月04日 星期三 10时36分05秒
  *   描    述：
  *
  *================================================================*/
@@ -182,6 +182,12 @@ void get_mem_info(size_t *size, size_t *count, size_t *max_size)
 
 	if(os_status != osOK) {
 	}
+}
+
+extern uint32_t _Min_Heap_Size;
+uint32_t get_min_heap_size(void)
+{
+	return &_Min_Heap_Size;
 }
 
 void *os_alloc(size_t size)

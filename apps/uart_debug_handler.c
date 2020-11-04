@@ -6,7 +6,7 @@
  *   文件名称：uart_debug_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年05月13日 星期三 13时18分00秒
- *   修改日期：2020年05月15日 星期五 08时29分20秒
+ *   修改日期：2020年11月04日 星期三 10时44分17秒
  *   描    述：
  *
  *================================================================*/
@@ -20,25 +20,41 @@ static void fn1(char *arguments)
 	_printf("%s:%s:%d arguments:\'%s\'\n", __FILE__, __func__, __LINE__, arguments);
 }
 
+uint16_t osGetCPUUsage(void);
+uint32_t get_min_heap_size(void);
+void get_mem_info(size_t *size, size_t *count, size_t *max_size);
 static void fn5(char *arguments)
 {
 	int size = xPortGetFreeHeapSize();
 	uint8_t *os_thread_info;
 	uint8_t is_app = 0;
 	uint32_t ticks = osKernelSysTick();
+	uint16_t cpu_usage = osGetCPUUsage();
+	size_t total_heap_size = get_min_heap_size();
+	size_t heap_size;
+	size_t heap_count;
+	size_t heap_max_size;
 
 #if defined(USER_APP)
 	is_app = 1;
 #endif
+	get_mem_info(&heap_size, &heap_count,  &heap_max_size);
 
-	_printf("free heap size:%d\n", size);
+	_printf("cpu usage:%d\n", cpu_usage);
+	_printf("free os heap size:%d\n", size);
+	_printf("totol heap size:%d, free heap size:%d, used:%d, heap count:%d, max heap size:%d\n",
+			total_heap_size,
+			total_heap_size - heap_size,
+			heap_size,
+			heap_count,
+			heap_max_size);
 	_printf("current ticks:%lu\n", ticks);
 	_printf("%lu day %lu hour %lu min %lu sec\n",
-	                ticks / (1000 * 60 * 60 * 24),//day
-	                (ticks % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),//hour
-	                (ticks % (1000 * 60 * 60)) / (1000 * 60),//min
-	                (ticks % (1000 * 60)) / (1000)//sec
-	               );
+	        ticks / (1000 * 60 * 60 * 24),//day
+	        (ticks % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),//hour
+	        (ticks % (1000 * 60 * 60)) / (1000 * 60),//min
+	        (ticks % (1000 * 60)) / (1000)//sec
+	       );
 
 	if(size < 4 * 1024) {
 		return;
