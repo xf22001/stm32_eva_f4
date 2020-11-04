@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年11月04日 星期三 09时16分29秒
+#   修改日期：2020年11月04日 星期三 11时26分34秒
 #   描    述：
 #
 #================================================================
@@ -18,6 +18,7 @@ USER_C_INCLUDES += -Iapps/modules/drivers
 USER_C_INCLUDES += -Iapps/modules/drivers/fw_1.9.0
 USER_C_INCLUDES += -Iapps/modules/hardware
 USER_C_INCLUDES += -Iapps/modules/app
+USER_C_INCLUDES += -Iapps/modules/app/ftpd
 USER_C_INCLUDES += -Iapps/modules/tests
 
 C_INCLUDES += $(USER_C_INCLUDES)
@@ -41,10 +42,13 @@ USER_C_SOURCES += apps/modules/app/net_protocol_ws.c
 USER_C_SOURCES += apps/modules/app/ftp_client.c
 USER_C_SOURCES += apps/modules/app/net_callback.c
 USER_C_SOURCES += apps/modules/app/config_list.c
+USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
+#USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_ramdisk
 #C_SOURCES := $(filter-out Middlewares/Third_Party/FatFs/src/diskio.c ,$(C_SOURCES))
-#USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
-#USER_C_SOURCES += apps/modules/app/ftpd/vfs.c
-#USER_C_SOURCES += apps/modules/app/ftpd/pseudo_disk_io.c
+#USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/vfs.c
+#USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/pseudo_disk_io.c
+USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_disk
+USER_C_SOURCES += apps/modules/app/ftpd/vfs_disk/vfs.c
 USER_C_SOURCES += apps/modules/app/mt_file.c
 USER_C_SOURCES += apps/modules/hardware/flash.c
 USER_C_SOURCES += apps/modules/hardware/eeprom.c
@@ -66,24 +70,24 @@ C_SOURCES += $(USER_C_SOURCES)
 CFLAGS += $(USER_CFLAGS)
 LDFLAGS += -u _printf_float
 
-IAP_FILE := apps/modules/os/iap.h
+#IAP_FILE := apps/modules/os/iap.h
 
-define update-iap-include
-	if [ -f $(IAP_FILE) ]; then
-		touch $(IAP_FILE);
-	fi
-endef
+#define update-iap-include
+#	if [ -f $(IAP_FILE) ]; then
+#		touch $(IAP_FILE);
+#	fi
+#endef
 
-ifeq ("$(origin APP)", "command line")
-CFLAGS += -DUSER_APP
-LDSCRIPT = STM32F407VETx_FLASH_APP.ld
-$(info $(shell $(update-iap-include)))
-$(info "build app!")
-else
-LDSCRIPT = STM32F407VETx_FLASH.ld
-$(info $(shell $(update-iap-include)))
-$(info "build bootloader!")
-endif
+#ifeq ("$(origin APP)", "command line")
+#CFLAGS += -DUSER_APP
+#LDSCRIPT = STM32F407VETx_FLASH_APP.ld
+#$(info $(shell $(update-iap-include)))
+#$(info "build app!")
+#else
+#LDSCRIPT = STM32F407VETx_FLASH.ld
+#$(info $(shell $(update-iap-include)))
+#$(info "build bootloader!")
+#endif
 
 default: all
 
