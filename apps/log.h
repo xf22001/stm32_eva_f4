@@ -6,7 +6,7 @@
  *   文件名称：log.h
  *   创 建 者：肖飞
  *   创建日期：2020年05月14日 星期四 14时09分56秒
- *   修改日期：2020年11月04日 星期三 13时46分32秒
+ *   修改日期：2020年11月04日 星期三 14时18分30秒
  *   描    述：
  *
  *================================================================*/
@@ -27,49 +27,57 @@ extern "C"
 #endif
 
 #if !defined(LOG_NONE)
+#if !defined(LOG_UDP) && !defined(LOG_UART) && !defined(LOG_FILE)
 #define LOG_UDP
 #define LOG_UART
 #endif
+#endif
 
 #if defined(LOG_UDP)
-#define LOG_UDP_DATA log_udp_data
+#define udp_log_printf(fmt, ...) log_printf((log_fn_t)log_udp_data, fmt, ## __VA_ARGS__)
+#define udp_log_hexdump(label, data, len) log_hexdump((log_fn_t)log_udp_data, label, data, len)
+#define udp_log_puts(s) log_puts((log_fn_t)log_udp_data, s)
 #else
-#define LOG_UDP_DATA NULL 
+#define udp_log_printf(fmt, ...)
+#define udp_log_hexdump(label, data, len)
+#define udp_log_puts(s)
 #endif
 
 #if defined(LOG_UART)
-#define LOG_UART_DATA log_uart_data
+#define uart_log_printf(fmt, ...) log_printf((log_fn_t)log_uart_data, fmt, ## __VA_ARGS__)
+#define uart_log_hexdump(label, data, len) log_hexdump((log_fn_t)log_uart_data, label, data, len)
+#define uart_log_puts(s) log_puts((log_fn_t)log_uart_data, s)
 #else
-#define LOG_UART_DATA NULL
+#define uart_log_printf(fmt, ...)
+#define uart_log_hexdump(label, data, len)
+#define uart_log_puts(s)
 #endif
 
 #if defined(LOG_FILE)
-#define LOG_FILE_DATA log_file_data
+#define file_log_printf(fmt, ...) log_printf((log_fn_t)log_file_data, fmt, ## __VA_ARGS__)
+#define file_log_hexdump(label, data, len) log_hexdump((log_fn_t)log_file_data, label, data, len)
+#define file_log_puts(s) log_puts((log_fn_t)log_file_data, s)
 #else
-#define LOG_FILE_DATA NULL
+#define file_log_printf(fmt, ...)
+#define file_log_hexdump(label, data, len)
+#define file_log_puts(s)
 #endif
 
-#if defined(LOG_NONE)
-#define _printf(fmt, ...)
-#define _hexdump(label, data, len)
-#define _puts(s)
-#else
 #define _printf(fmt, ...) do { \
-	log_printf((log_fn_t)LOG_UDP_DATA, fmt, ## __VA_ARGS__); \
-	log_printf((log_fn_t)LOG_UART_DATA, fmt, ## __VA_ARGS__); \
-	log_printf((log_fn_t)LOG_FILE_DATA, fmt, ## __VA_ARGS__); \
+	udp_log_printf(fmt, ## __VA_ARGS__); \
+	uart_log_printf(fmt, ## __VA_ARGS__); \
+	file_log_printf(fmt, ## __VA_ARGS__); \
 } while(0)
 #define _hexdump(label, data, len) do { \
-	log_hexdump((log_fn_t)LOG_UDP_DATA, label, data, len); \
-	log_hexdump((log_fn_t)LOG_UART_DATA, label, data, len); \
-	log_hexdump((log_fn_t)LOG_FILE_DATA, label, data, len); \
+	udp_log_hexdump(label, data, len); \
+	uart_log_hexdump(label, data, len); \
+	file_log_hexdump(label, data, len); \
 } while(0)
 #define _puts(s) do { \
-	log_puts((log_fn_t)LOG_UDP_DATA, s); \
-	log_puts((log_fn_t)LOG_UART_DATA, s); \
-	log_puts((log_fn_t)LOG_FILE_DATA, s); \
+	udp_log_puts(s); \
+	uart_log_puts(s); \
+	file_log_puts(s); \
 } while(0)
-#endif
 
 #define debug(fmt, ...) _printf("[%s:%s:%d] " fmt, __FILE__, __func__, __LINE__, ## __VA_ARGS__)
 

@@ -27,6 +27,9 @@
 
 /* USER CODE BEGIN Includes */
 
+#include "mt_file.h"
+#include "vfs.h"
+
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN PV */
@@ -103,10 +106,25 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_DISCONNECTION:
   Appli_state = APPLICATION_DISCONNECT;
+  {
+	int ret = mt_f_mount(0, "", 0);
+
+	if(ret != FR_OK) {
+		return ret;
+	}
+  }
   break;
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
+  {
+	FATFS *pfs = get_vfs_fs();
+	int ret = mt_f_mount(pfs, "", 0);
+
+	if(ret != FR_OK) {
+		return ret;
+	}
+  }
   break;
 
   case HOST_USER_CONNECTION:

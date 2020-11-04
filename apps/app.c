@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年11月04日 星期三 13时28分36秒
+ *   修改日期：2020年11月04日 星期三 16时17分26秒
  *   描    述：
  *
  *================================================================*/
@@ -25,7 +25,6 @@
 #include "eeprom.h"
 #include "config_list.h"
 
-//#define LOG_NONE
 #include "log.h"
 
 #include <string.h>
@@ -141,18 +140,6 @@ void test_config(void)
 	test_config_get(2, 2);
 }
 
-static void handle_file_log(void)
-{
-	if(get_log_file() == NULL) {
-		debug("check file log...\n");
-		open_log();
-	} else if(is_log_file_out_of_date() == 1) {
-		debug("check file log...\n");
-		close_log();
-		open_log();
-	}
-}
-
 void app(void const *argument)
 {
 
@@ -242,7 +229,7 @@ void app(void const *argument)
 	//test_config();
 
 	while(1) {
-		handle_file_log();
+		handle_open_log();
 		osDelay(1000);
 	}
 }
