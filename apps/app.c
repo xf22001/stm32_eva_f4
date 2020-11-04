@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年11月04日 星期三 10时46分57秒
+ *   修改日期：2020年11月04日 星期三 13时28分36秒
  *   描    述：
  *
  *================================================================*/
@@ -127,18 +127,30 @@ void test_config(void)
 	config_init();
 
 	config_set_class_key_value(0, 1, (void *)1);
-	config_dump_class_key_value(); \
+	config_dump_class_key_value();
 	config_set_class_key_value(0, 2, (void *)1);
-	config_dump_class_key_value(); \
+	config_dump_class_key_value();
 	config_set_class_key_value(2, 1, (void *)1);
-	config_dump_class_key_value(); \
+	config_dump_class_key_value();
 	config_set_class_key_value(2, 2, (void *)1);
-	config_dump_class_key_value(); \
+	config_dump_class_key_value();
 	test_config_get(0, 1);
 	test_config_get(0, 2);
 	test_config_get(0, 3);
 	test_config_get(1, 3);
 	test_config_get(2, 2);
+}
+
+static void handle_file_log(void)
+{
+	if(get_log_file() == NULL) {
+		debug("check file log...\n");
+		open_log();
+	} else if(is_log_file_out_of_date() == 1) {
+		debug("check file log...\n");
+		close_log();
+		open_log();
+	}
 }
 
 void app(void const *argument)
@@ -225,11 +237,12 @@ void app(void const *argument)
 	//net_client_add_poll_loop(poll_loop);
 	//ftp_client_add_poll_loop(poll_loop);
 
-	//ftpd_init();
+	ftpd_init();
 
 	//test_config();
 
 	while(1) {
+		handle_file_log();
 		osDelay(1000);
 	}
 }
