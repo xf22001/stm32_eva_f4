@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "mt_file.h"
+#include "file_log.h"
 #include "vfs.h"
 
 /* USER CODE END Includes */
@@ -110,8 +111,8 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 	int ret = mt_f_mount(0, "", 0);
 
 	if(ret != FR_OK) {
-		return ret;
 	}
+	try_to_close_log();
   }
   break;
 
@@ -122,7 +123,6 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 	int ret = mt_f_mount(pfs, "", 0);
 
 	if(ret != FR_OK) {
-		return ret;
 	}
   }
   break;
