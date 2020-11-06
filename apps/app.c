@@ -27,6 +27,8 @@
 
 #include "log.h"
 
+#include "file_log.h"
+
 #include <string.h>
 
 extern IWDG_HandleTypeDef hiwdg;
@@ -145,6 +147,7 @@ void app(void const *argument)
 
 	poll_loop_t *poll_loop;
 	config_init();
+	mt_file_environment_init();
 
 	{
 		uart_info_t *uart_info = get_or_alloc_uart_info(&huart3);
