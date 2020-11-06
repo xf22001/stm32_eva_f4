@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年11月04日 星期三 10时43分57秒
+ *   修改日期：2020年11月06日 星期五 10时34分56秒
  *   描    述：
  *
  *================================================================*/
@@ -211,7 +211,7 @@ static void fn5(request_t *request)
 
 	_printf("cpu usage:%d\n", cpu_usage);
 	_printf("free os heap size:%d\n", size);
-	_printf("totol heap size:%d, free heap size:%d, used:%d, heap count:%d, max heap size:%d\n",
+	_printf("total heap size:%d, free heap size:%d, used:%d, heap count:%d, max heap size:%d\n",
 			total_heap_size,
 			total_heap_size - heap_size,
 			heap_size,

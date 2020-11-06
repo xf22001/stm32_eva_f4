@@ -6,7 +6,7 @@
  *   文件名称：uart_debug_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年05月13日 星期三 13时18分00秒
- *   修改日期：2020年11月04日 星期三 10时44分17秒
+ *   修改日期：2020年11月06日 星期五 10时35分12秒
  *   描    述：
  *
  *================================================================*/
@@ -42,7 +42,7 @@ static void fn5(char *arguments)
 
 	_printf("cpu usage:%d\n", cpu_usage);
 	_printf("free os heap size:%d\n", size);
-	_printf("totol heap size:%d, free heap size:%d, used:%d, heap count:%d, max heap size:%d\n",
+	_printf("total heap size:%d, free heap size:%d, used:%d, heap count:%d, max heap size:%d\n",
 			total_heap_size,
 			total_heap_size - heap_size,
 			heap_size,
