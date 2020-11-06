@@ -59,8 +59,8 @@ osThreadId defaultTaskHandle;
 
 void StartDefaultTask(void const * argument);
 
-extern void MX_LWIP_Init(void);
 extern void MX_USB_HOST_Init(void);
+extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
@@ -185,12 +185,6 @@ void StartDefaultTask(void const * argument)
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
   /* USER CODE BEGIN StartDefaultTask */
-  /* MX_LWIP_Init() is generated within mbedtls_net_init() function in net_cockets.c file */
-  /* Up to user to call mbedtls_net_init() function in MBEDTLS initialization step */
-
-  /* Up to user define the empty MX_MBEDTLS_Init() function located in mbedtls.c file */
-  MX_MBEDTLS_Init();
-
   osThreadDef(app, app, osPriorityNormal, 0, 256);
   osThreadCreate(osThread(app), NULL);
   /* Infinite loop */

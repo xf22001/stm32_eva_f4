@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年11月04日 星期三 16时17分26秒
+ *   修改日期：2020年11月06日 星期五 13时51分10秒
  *   描    述：
  *
  *================================================================*/
@@ -146,6 +146,11 @@ void app(void const *argument)
 {
 
 	poll_loop_t *poll_loop;
+	/* MX_LWIP_Init() is generated within mbedtls_net_init() function in net_cockets.c file */
+	/* Up to user to call mbedtls_net_init() function in MBEDTLS initialization step */
+
+	/* Up to user define the empty MX_MBEDTLS_Init() function located in mbedtls.c file */
+	MX_MBEDTLS_Init();
 	config_init();
 	mt_file_environment_init();
 
