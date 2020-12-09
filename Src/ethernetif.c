@@ -284,7 +284,7 @@ static void low_level_init(struct netif *netif)
   HAL_ETH_Start(&heth);
 
 /* USER CODE BEGIN PHY_PRE_CONFIG */
-    
+
 /* USER CODE END PHY_PRE_CONFIG */
 
   /* Read Register Configuration */
@@ -298,13 +298,13 @@ static void low_level_init(struct netif *netif)
   HAL_ETH_ReadPHYRegister(&heth, PHY_ISFR , &regvalue);
 
 /* USER CODE BEGIN PHY_POST_CONFIG */
-    
+
 /* USER CODE END PHY_POST_CONFIG */
 
 #endif /* LWIP_ARP || LWIP_ETHERNET */
 
 /* USER CODE BEGIN LOW_LEVEL_INIT */
-    
+
 /* USER CODE END LOW_LEVEL_INIT */
 }
 
@@ -536,7 +536,7 @@ static err_t low_level_output_arp_off(struct netif *netif, struct pbuf *q, const
   errval = ERR_OK;
 
 /* USER CODE BEGIN 5 */
-    
+
 /* USER CODE END 5 */
 
   return errval;
@@ -757,7 +757,7 @@ void ethernetif_update_config(struct netif *netif)
   */
 __weak void ethernetif_notify_conn_changed(struct netif *netif)
 {
-  /* NOTE : This is function could be implemented in user file 
+  /* NOTE : This is function could be implemented in user file
             when the callback is needed,
   */
 
