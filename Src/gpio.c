@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.c
-  * Description        : This file provides code for the configuration
-  *                      of all used GPIO pins.
+  * @file    gpio.c
+  * @brief   This file provides code for the configuration
+  *          of all used GPIO pins.
   ******************************************************************************
   * @attention
   *
@@ -19,6 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "gpio.h"
+
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -30,9 +31,9 @@
 
 /* USER CODE END 1 */
 
-/** Configure pins as 
-        * Analog 
-        * Input 
+/** Configure pins as
+        * Analog
+        * Input
         * Output
         * EVENT_OUT
         * EXTI
@@ -51,33 +52,33 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, out_5_Pin|out_4_Pin|out_3_Pin|out_2_Pin 
-                          |relay_2_Pin|relay_3_Pin|relay_4_Pin|relay_5_Pin 
-                          |relay_6_Pin|relay_7_Pin|relay_8_Pin|out_7_Pin 
+  HAL_GPIO_WritePin(GPIOE, out_5_Pin|out_4_Pin|out_3_Pin|out_2_Pin
+                          |relay_2_Pin|relay_3_Pin|relay_4_Pin|relay_5_Pin
+                          |relay_6_Pin|relay_7_Pin|relay_8_Pin|out_7_Pin
                           |out_6_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(spi3_cs_GPIO_Port, spi3_cs_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, spi3_wp_Pin|out_16_Pin|out_15_Pin|out_10_Pin 
+  HAL_GPIO_WritePin(GPIOB, spi3_wp_Pin|out_16_Pin|out_15_Pin|out_10_Pin
                           |out_9_Pin|out_8_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, led_485_1_Pin|led_485_3_Pin|led_bms_Pin|led_lan_Pin 
-                          |led_ccs_Pin|out_14_Pin|out_13_Pin|out_12_Pin 
+  HAL_GPIO_WritePin(GPIOD, led_485_1_Pin|led_485_3_Pin|led_bms_Pin|led_lan_Pin
+                          |led_ccs_Pin|out_14_Pin|out_13_Pin|out_12_Pin
                           |out_11_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, led_232_2_Pin|led_232_6_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PEPin PEPin PEPin PEPin 
-                           PEPin PEPin PEPin PEPin 
-                           PEPin PEPin PEPin PEPin 
+  /*Configure GPIO pins : PEPin PEPin PEPin PEPin
+                           PEPin PEPin PEPin PEPin
+                           PEPin PEPin PEPin PEPin
                            PEPin */
-  GPIO_InitStruct.Pin = out_5_Pin|out_4_Pin|out_3_Pin|out_2_Pin 
-                          |relay_2_Pin|relay_3_Pin|relay_4_Pin|relay_5_Pin 
-                          |relay_6_Pin|relay_7_Pin|relay_8_Pin|out_7_Pin 
+  GPIO_InitStruct.Pin = out_5_Pin|out_4_Pin|out_3_Pin|out_2_Pin
+                          |relay_2_Pin|relay_3_Pin|relay_4_Pin|relay_5_Pin
+                          |relay_6_Pin|relay_7_Pin|relay_8_Pin|out_7_Pin
                           |out_6_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -109,9 +110,9 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(spi3_cs_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PBPin PBPin PBPin PBPin 
+  /*Configure GPIO pins : PBPin PBPin PBPin PBPin
                            PBPin PBPin */
-  GPIO_InitStruct.Pin = spi3_wp_Pin|out_16_Pin|out_15_Pin|out_10_Pin 
+  GPIO_InitStruct.Pin = spi3_wp_Pin|out_16_Pin|out_15_Pin|out_10_Pin
                           |out_9_Pin|out_8_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -130,11 +131,11 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PDPin PDPin PDPin PDPin 
-                           PDPin PDPin PDPin PDPin 
+  /*Configure GPIO pins : PDPin PDPin PDPin PDPin
+                           PDPin PDPin PDPin PDPin
                            PDPin */
-  GPIO_InitStruct.Pin = led_485_1_Pin|led_485_3_Pin|led_bms_Pin|led_lan_Pin 
-                          |led_ccs_Pin|out_14_Pin|out_13_Pin|out_12_Pin 
+  GPIO_InitStruct.Pin = led_485_1_Pin|led_485_3_Pin|led_bms_Pin|led_lan_Pin
+                          |led_ccs_Pin|out_14_Pin|out_13_Pin|out_12_Pin
                           |out_11_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;

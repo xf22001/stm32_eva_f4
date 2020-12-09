@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    tim.h
+  * @file    rng.h
   * @brief   This file contains all the function prototypes for
-  *          the tim.c file
+  *          the rng.c file
   ******************************************************************************
   * @attention
   *
@@ -17,8 +17,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __TIM_H__
-#define __TIM_H__
+#ifndef __RNG_H__
+#define __RNG_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,17 +31,13 @@ extern "C" {
 
 /* USER CODE END Includes */
 
-extern TIM_HandleTypeDef htim4;
-extern TIM_HandleTypeDef htim9;
+extern RNG_HandleTypeDef hrng;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_TIM4_Init(void);
-void MX_TIM9_Init(void);
-
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+void MX_RNG_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -51,6 +47,6 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 }
 #endif
 
-#endif /* __TIM_H__ */
+#endif /* __RNG_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

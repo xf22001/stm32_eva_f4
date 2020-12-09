@@ -395,7 +395,7 @@ void log_hexdump(log_fn_t log_fn, const char *label, const char *data, int len)
 	out:
 
 		if(log_fn != NULL) {
-			ret = log_fn(buffer, ret);
+			ret = log_fn(buffer, BUFFER_LEN - left);
 		}
 
 		start += c;

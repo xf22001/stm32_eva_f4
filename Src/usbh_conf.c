@@ -68,11 +68,11 @@ void HAL_HCD_MspInit(HCD_HandleTypeDef* hcdHandle)
   /* USER CODE BEGIN USB_OTG_FS_MspInit 0 */
 
   /* USER CODE END USB_OTG_FS_MspInit 0 */
-  
+
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    /**USB_OTG_FS GPIO Configuration    
+    /**USB_OTG_FS GPIO Configuration
     PA11     ------> USB_OTG_FS_DM
-    PA12     ------> USB_OTG_FS_DP 
+    PA12     ------> USB_OTG_FS_DP
     */
     GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -102,10 +102,10 @@ void HAL_HCD_MspDeInit(HCD_HandleTypeDef* hcdHandle)
   /* USER CODE END USB_OTG_FS_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_USB_OTG_FS_CLK_DISABLE();
-  
-    /**USB_OTG_FS GPIO Configuration    
+
+    /**USB_OTG_FS GPIO Configuration
     PA11     ------> USB_OTG_FS_DM
-    PA12     ------> USB_OTG_FS_DP 
+    PA12     ------> USB_OTG_FS_DP
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_11|GPIO_PIN_12);
 
@@ -170,7 +170,7 @@ void HAL_HCD_HC_NotifyURBChange_Callback(HCD_HandleTypeDef *hhcd, uint8_t chnum,
 void HAL_HCD_PortEnabled_Callback(HCD_HandleTypeDef *hhcd)
 {
   USBH_LL_PortEnabled(hhcd->pData);
-} 
+}
 
 /**
   * @brief  Port Port Disabled callback.
@@ -180,7 +180,7 @@ void HAL_HCD_PortEnabled_Callback(HCD_HandleTypeDef *hhcd)
 void HAL_HCD_PortDisabled_Callback(HCD_HandleTypeDef *hhcd)
 {
   USBH_LL_PortDisabled(hhcd->pData);
-} 
+}
 
 /*******************************************************************************
                        LL Driver Interface (USB Host Library --> HCD)
@@ -226,9 +226,9 @@ USBH_StatusTypeDef USBH_LL_DeInit(USBH_HandleTypeDef *phost)
   USBH_StatusTypeDef usb_status = USBH_OK;
 
   hal_status = HAL_HCD_DeInit(phost->pData);
-  
+
   usb_status = USBH_Get_USB_Status(hal_status);
-  
+
   return usb_status;
 }
 
@@ -245,7 +245,7 @@ USBH_StatusTypeDef USBH_LL_Start(USBH_HandleTypeDef *phost)
   hal_status = HAL_HCD_Start(phost->pData);
 
   usb_status = USBH_Get_USB_Status(hal_status);
-  
+
   return usb_status;
 }
 
@@ -262,7 +262,7 @@ USBH_StatusTypeDef USBH_LL_Stop(USBH_HandleTypeDef *phost)
   hal_status = HAL_HCD_Stop(phost->pData);
 
   usb_status = USBH_Get_USB_Status(hal_status);
- 
+
   return usb_status;
 }
 
@@ -307,9 +307,9 @@ USBH_StatusTypeDef USBH_LL_ResetPort(USBH_HandleTypeDef *phost)
   USBH_StatusTypeDef usb_status = USBH_OK;
 
   hal_status = HAL_HCD_ResetPort(phost->pData);
-  
+
   usb_status = USBH_Get_USB_Status(hal_status);
-  
+
   return usb_status;
 }
 
@@ -345,7 +345,7 @@ USBH_StatusTypeDef USBH_LL_OpenPipe(USBH_HandleTypeDef *phost, uint8_t pipe_num,
                                dev_address, speed, ep_type, mps);
 
   usb_status = USBH_Get_USB_Status(hal_status);
-  
+
   return usb_status;
 }
 
@@ -363,7 +363,7 @@ USBH_StatusTypeDef USBH_LL_ClosePipe(USBH_HandleTypeDef *phost, uint8_t pipe)
   hal_status = HAL_HCD_HC_Halt(phost->pData, pipe);
 
   usb_status = USBH_Get_USB_Status(hal_status);
-  
+
   return usb_status;
 }
 
@@ -405,7 +405,7 @@ USBH_StatusTypeDef USBH_LL_SubmitURB(USBH_HandleTypeDef *phost, uint8_t pipe, ui
                                         ep_type, token, pbuff, length,
                                         do_ping);
   usb_status =  USBH_Get_USB_Status(hal_status);
-  
+
   return usb_status;
 }
 
@@ -433,8 +433,8 @@ USBH_URBStateTypeDef USBH_LL_GetURBState(USBH_HandleTypeDef *phost, uint8_t pipe
   * @param  phost: Host handle
   * @param  state : VBUS state
   *          This parameter can be one of the these values:
-  *           0 : VBUS Active
-  *           1 : VBUS Inactive
+  *           0 : VBUS Inactive
+  *           1 : VBUS Active
   * @retval Status
   */
 USBH_StatusTypeDef USBH_LL_DriverVBUS(USBH_HandleTypeDef *phost, uint8_t state)

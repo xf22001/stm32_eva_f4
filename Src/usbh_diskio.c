@@ -15,9 +15,9 @@
   *
   ******************************************************************************
   */
-/* USER CODE BEGIN firstSection */ 
+/* USER CODE BEGIN firstSection */
 /* can be used to modify / undefine following code or add new definitions */
-/* USER CODE END firstSection */ 
+/* USER CODE END firstSection */
 
 /* Includes ------------------------------------------------------------------*/
 #include "ff_gen_drv.h"
@@ -128,7 +128,7 @@ DRESULT USBH_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
     case SCSI_ASC_NOT_READY_TO_READY_CHANGE:
       USBH_ErrLog ("USB Disk is not ready!");
       res = RES_NOTRDY;
-      break; 
+      break;
 
     default:
       res = RES_ERROR;
@@ -261,7 +261,7 @@ DRESULT USBH_ioctl(BYTE lun, BYTE cmd, void *buff)
 }
 #endif /* _USE_IOCTL == 1 */
 
-/* USER CODE BEGIN lastSection */ 
+/* USER CODE BEGIN lastSection */
 /* can be used to modify / undefine previous code or add new code */
 /* USER CODE END lastSection */
 

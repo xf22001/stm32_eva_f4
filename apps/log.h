@@ -6,7 +6,7 @@
  *   文件名称：log.h
  *   创 建 者：肖飞
  *   创建日期：2020年05月14日 星期四 14时09分56秒
- *   修改日期：2020年11月04日 星期三 14时18分30秒
+ *   修改日期：2020年12月09日 星期三 14时42分47秒
  *   描    述：
  *
  *================================================================*/
@@ -28,7 +28,6 @@ extern "C"
 
 #if !defined(LOG_NONE)
 #if !defined(LOG_UDP) && !defined(LOG_UART) && !defined(LOG_FILE)
-#define LOG_UDP
 #define LOG_UART
 #endif
 #endif
