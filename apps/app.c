@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年11月06日 星期五 13时51分10秒
+ *   修改日期：2020年12月10日 星期四 11时07分00秒
  *   描    述：
  *
  *================================================================*/
@@ -22,6 +22,7 @@
 #include "net_client.h"
 #include "ftp_client.h"
 #include "ftpd/ftpd.h"
+#include "ftpd/ftpd_rtt.h"
 
 #include "eeprom.h"
 #include "config_list.h"
@@ -225,10 +226,11 @@ void app(void const *argument)
 		app_info->available = 1;
 	}
 
-	net_client_add_poll_loop(poll_loop);
+	//net_client_add_poll_loop(poll_loop);
 	//ftp_client_add_poll_loop(poll_loop);
 
-	ftpd_init();
+	//ftpd_init();
+	start_ftpd(NULL);
 
 	//test_config();
 

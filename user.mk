@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年11月04日 星期三 13时07分14秒
+#   修改日期：2020年12月10日 星期四 08时59分06秒
 #   描    述：
 #
 #================================================================
@@ -43,11 +43,15 @@ USER_C_SOURCES += apps/modules/app/net_protocol_ws.c
 USER_C_SOURCES += apps/modules/app/ftp_client.c
 USER_C_SOURCES += apps/modules/app/net_callback.c
 USER_C_SOURCES += apps/modules/app/config_list.c
-USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
-#USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_ramdisk
-#C_SOURCES := $(filter-out Middlewares/Third_Party/FatFs/src/diskio.c ,$(C_SOURCES))
-#USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/vfs.c
-#USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/pseudo_disk_io.c
+#USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
+##USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_ramdisk
+##C_SOURCES := $(filter-out Middlewares/Third_Party/FatFs/src/diskio.c ,$(C_SOURCES))
+##USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/vfs.c
+##USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/pseudo_disk_io.c
+#USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_disk
+#USER_C_SOURCES += apps/modules/app/ftpd/vfs_disk/vfs.c
+USER_C_SOURCES += apps/modules/app/ftpd/ftpd_rtt.c
+USER_C_SOURCES += apps/modules/app/ftpd/ftpd_file_rtt.c
 USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_disk
 USER_C_SOURCES += apps/modules/app/ftpd/vfs_disk/vfs.c
 USER_C_SOURCES += apps/modules/app/mt_file.c

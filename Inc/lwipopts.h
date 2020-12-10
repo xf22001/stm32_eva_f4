@@ -55,6 +55,10 @@
 #define LWIP_DNS 1
 /*----- Value in opt.h for MEM_ALIGNMENT: 1 -----*/
 #define MEM_ALIGNMENT 4
+/*----- Default Value for MEMP_NUM_NETCONN: 4 ---*/
+#define MEMP_NUM_NETCONN 8
+/*----- Default Value for MEMP_NUM_SELECT_CB: 4 ---*/
+#define MEMP_NUM_SELECT_CB 8
 /*----- Value in opt.h for LWIP_ETHERNET: LWIP_ARP || PPPOE_SUPPORT -*/
 #define LWIP_ETHERNET 1
 /*----- Value in opt.h for LWIP_DNS_SECURE: (LWIP_DNS_SECURE_RAND_XID | LWIP_DNS_SECURE_NO_MULTIPLE_OUTSTANDING | LWIP_DNS_SECURE_RAND_SRC_PORT) -*/
@@ -91,6 +95,8 @@
 #define DEFAULT_ACCEPTMBOX_SIZE 6
 /*----- Value in opt.h for RECV_BUFSIZE_DEFAULT: INT_MAX -----*/
 #define RECV_BUFSIZE_DEFAULT 2000000000
+/*----- Default Value for SO_REUSE: 0 ---*/
+#define SO_REUSE 1
 /*----- Value in opt.h for LWIP_USE_EXTERNAL_MBEDTLS: 0 -----*/
 #define LWIP_USE_EXTERNAL_MBEDTLS 1
 /*----- Value in opt.h for LWIP_STATS: 1 -----*/
