@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年12月10日 星期四 11时07分00秒
+ *   修改日期：2020年12月17日 星期四 12时44分54秒
  *   描    述：
  *
  *================================================================*/
@@ -39,24 +39,19 @@ extern UART_HandleTypeDef huart3;
 extern SPI_HandleTypeDef hspi3;
 
 static app_info_t *app_info = NULL;
-eeprom_info_t *eeprom_info = NULL;
+static eeprom_info_t *eeprom_info = NULL;
 
 app_info_t *get_app_info(void)
 {
 	return app_info;
 }
 
-typedef struct {
-	uint32_t crc;
-	uint16_t payload_size;
-} eeprom_head_t;
-
 static int app_load_config(void)
 {
 	int ret = -1;
 	uint32_t offset;
 	uint32_t crc = 0;
-	eeprom_head_t eeprom_head;
+	eeprom_app_head_t eeprom_app_head;
 
 	offset = 0;
 
@@ -65,27 +60,29 @@ static int app_load_config(void)
 		return ret;
 	}
 
-	eeprom_read(eeprom_info, offset, (uint8_t *)&eeprom_head, sizeof(eeprom_head_t));
-	offset += sizeof(eeprom_head_t);
+	eeprom_read(eeprom_info, offset, (uint8_t *)&eeprom_app_head, sizeof(eeprom_app_head_t));
+	offset += sizeof(eeprom_app_head_t);
 
-	if(eeprom_head.payload_size != sizeof(app_info_t)) {
+	if(eeprom_app_head.payload_size != (sizeof(eeprom_app_info_t) - sizeof(eeprom_app_head_t))) {
 		debug("\n");
 		return ret;
 	}
 
-	crc += eeprom_head.payload_size;
+	crc += eeprom_app_head.payload_size;
 	crc += (uint32_t)'e';
 	crc += (uint32_t)'v';
 	crc += (uint32_t)'a';
 
-	if(crc != eeprom_head.crc) {
+	eeprom_read(eeprom_info, offset, (uint8_t *)&app_info->mechine, sizeof(mechine_info_t));
+
+	crc += calc_crc8(&app_info->mechine, sizeof(mechine_info_t));
+
+	if(crc != eeprom_app_head.crc) {
 		debug("\n");
 		return ret;
 	}
 
 	ret = 0;
-
-	eeprom_read(eeprom_info, offset, (uint8_t *)&app_info->mechine, sizeof(mechine_info_t));
 
 	return ret;
 }
@@ -95,7 +92,7 @@ int app_save_config(void)
 	int ret = -1;
 	uint32_t offset;
 	uint32_t crc = 0;
-	eeprom_head_t eeprom_head;
+	eeprom_app_head_t eeprom_app_head;
 
 	offset = 0;
 
@@ -104,17 +101,19 @@ int app_save_config(void)
 		return ret;
 	}
 
-	eeprom_head.payload_size = sizeof(app_info_t);
+	eeprom_app_head.payload_size = sizeof(eeprom_app_info_t) - sizeof(eeprom_app_head_t);
 
-	crc += eeprom_head.payload_size;
+	crc += eeprom_app_head.payload_size;
 	crc += (uint32_t)'e';
 	crc += (uint32_t)'v';
 	crc += (uint32_t)'a';
 
-	eeprom_head.crc = crc;
+	crc += calc_crc8(&app_info->mechine, sizeof(mechine_info_t));
 
-	eeprom_write(eeprom_info, offset, (uint8_t *)&eeprom_head, sizeof(eeprom_head_t));
-	offset += sizeof(eeprom_head_t);
+	eeprom_app_head.crc = crc;
+
+	eeprom_write(eeprom_info, offset, (uint8_t *)&eeprom_app_head, sizeof(eeprom_app_head_t));
+	offset += sizeof(eeprom_app_head_t);
 
 	eeprom_write(eeprom_info, offset, (uint8_t *)&app_info->mechine, sizeof(mechine_info_t));
 
