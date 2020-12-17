@@ -6,7 +6,7 @@
  *   文件名称：os_utils.c
  *   创 建 者：肖飞
  *   创建日期：2019年11月13日 星期三 11时13分17秒
- *   修改日期：2020年12月16日 星期三 15时27分09秒
+ *   修改日期：2020年12月17日 星期四 14时35分38秒
  *   描    述：
  *
  *================================================================*/
@@ -461,7 +461,7 @@ unsigned int str_hash(const char *s)
 	return hash;
 }
 
-unsigned char calc_crc8(void *data, size_t size)
+unsigned char calc_crc8(const void *data, size_t size)
 {
 	unsigned char crc = 0;
 	unsigned char *p = (unsigned char *)data;
