@@ -76,26 +76,37 @@ C_SOURCES += $(USER_C_SOURCES)
 CFLAGS += $(USER_CFLAGS)
 LDFLAGS += -u _printf_float
 
-#IAP_FILE := apps/modules/os/iap.h
+IAP_FILE := apps/modules/os/iap.h
 
-#define update-iap-include
-#	if [ -f $(IAP_FILE) ]; then
-#		touch $(IAP_FILE);
-#	fi
-#endef
+define update-iap-include
+	if [ -f $(IAP_FILE) ]; then
+		touch $(IAP_FILE);
+	fi
+endef
 
-#ifeq ("$(origin APP)", "command line")
-#CFLAGS += -DUSER_APP
-#LDSCRIPT = STM32F407VETx_FLASH_APP.ld
+ifeq ("$(origin APP)", "command line")
+build-type := .build-type-app
+build-type-invalid := .build-type-bootloader
+CFLAGS += -DUSER_APP
+LDSCRIPT = STM32F407VETx_FLASH_APP.ld
 #$(info $(shell $(update-iap-include)))
-#$(info "build app!")
-#else
-#LDSCRIPT = STM32F407VETx_FLASH.ld
+$(info "build app!")
+else
+build-type := .build-type-bootloader
+build-type-invalid := .build-type-app
+LDSCRIPT = STM32F407VETx_FLASH.ld
 #$(info $(shell $(update-iap-include)))
-#$(info "build bootloader!")
-#endif
+$(info "build bootloader!")
+endif
 
 default: all
+
+all : $(build-type)
+
+$(build-type) :
+	-rm $(build-type-invalid)
+	$(shell $(update-iap-include))
+	touch $@
 
 cscope: all
 	rm cscope e_cs -rf
