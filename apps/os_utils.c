@@ -192,7 +192,7 @@ void get_mem_info(size_t *size, size_t *count, size_t *max_size)
 }
 
 extern uint32_t _Min_Heap_Size;
-uint32_t get_min_heap_size(void)
+uint32_t get_total_heap_size(void)
 {
 	return (uint32_t)&_Min_Heap_Size;
 }

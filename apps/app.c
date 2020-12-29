@@ -6,11 +6,14 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年12月17日 星期四 12时44分54秒
+ *   修改日期：2020年12月29日 星期二 16时35分28秒
  *   描    述：
  *
  *================================================================*/
 #include "app.h"
+
+#include <string.h>
+
 #include "app_platform.h"
 #include "cmsis_os.h"
 
@@ -18,20 +21,20 @@
 
 #include "os_utils.h"
 #include "test_serial.h"
+#include "test_event.h"
+#include "test_map_utils.h"
+#include "test_sys_class.h"
 #include "probe_tool.h"
 #include "net_client.h"
 #include "ftp_client.h"
 #include "ftpd/ftpd.h"
 #include "ftpd/ftpd_rtt.h"
 
-#include "eeprom.h"
 #include "config_list.h"
 
 #include "log.h"
 
 #include "file_log.h"
-
-#include <string.h>
 
 extern IWDG_HandleTypeDef hiwdg;
 extern TIM_HandleTypeDef htim4;
@@ -168,6 +171,10 @@ void app(void const *argument)
 	start_ftpd(NULL);
 
 	//test_config();
+	
+	//test_event();
+	//test_map_utils();
+	//test_sys_class();
 
 	while(1) {
 		handle_open_log();
