@@ -139,7 +139,7 @@ void app(void const *argument)
 
 	memset(app_info, 0, sizeof(app_info_t));
 
-	eeprom_info = get_or_alloc_eeprom_info(&hspi3,
+	eeprom_info = get_or_alloc_eeprom_info(get_or_alloc_spi_info(&hspi3),
 	                                       spi3_cs_GPIO_Port,
 	                                       spi3_cs_Pin,
 	                                       spi3_wp_GPIO_Port,

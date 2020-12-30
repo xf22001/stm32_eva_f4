@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年12月29日 星期二 16时57分37秒
+ *   修改日期：2020年12月30日 星期三 15时55分49秒
  *   描    述：
  *
  *================================================================*/
@@ -300,7 +300,7 @@ static void fn7(request_t *request)
 	//	return;
 	//}
 
-	eeprom_info_t *eeprom_info = get_or_alloc_eeprom_info(&hspi3, spi3_cs_GPIO_Port, spi3_cs_Pin, spi3_wp_GPIO_Port, spi3_wp_Pin);
+	eeprom_info_t *eeprom_info = get_or_alloc_eeprom_info(get_or_alloc_spi_info(&hspi3), spi3_cs_GPIO_Port, spi3_cs_Pin, spi3_wp_GPIO_Port, spi3_wp_Pin);
 
 	if(eeprom_info == NULL) {
 		return;
