@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年12月29日 星期二 16时18分56秒
+#   修改日期：2021年01月04日 星期一 13时31分30秒
 #   描    述：
 #
 #================================================================
@@ -15,7 +15,6 @@ USER_C_INCLUDES += -Iapps
 USER_C_INCLUDES += -Iapps/modules
 USER_C_INCLUDES += -Iapps/modules/os
 USER_C_INCLUDES += -Iapps/modules/drivers
-USER_C_INCLUDES += -Iapps/modules/drivers/fw_1.9.0
 USER_C_INCLUDES += -Iapps/modules/hardware
 USER_C_INCLUDES += -Iapps/modules/app
 USER_C_INCLUDES += -Iapps/modules/app/ftpd
