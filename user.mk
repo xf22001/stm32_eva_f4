@@ -119,8 +119,8 @@ cscope: all
 	$(silent)touch dep_files;
 	$(silent)for f in $$(find . -type f -name "*.d" 2>/dev/null); do \
 		for i in $$(cat "$$f" | sed 's/^.*://g' | sed 's/[\\ ]/\n/g' | sort -h | uniq); do \
-			if test "${i:0:1}" = "/";then \
-				echo "$i" >> dep_files; \
+			if test "$${i:0:1}" = "/";then \
+				echo "$$i" >> dep_files; \
 			else \
 				readlink -f "$$i" >> dep_files; \
 			fi; \
