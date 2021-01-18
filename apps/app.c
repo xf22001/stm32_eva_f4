@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年12月30日 星期三 08时41分34秒
+ *   修改日期：2021年01月18日 星期一 09时10分23秒
  *   描    述：
  *
  *================================================================*/
@@ -23,14 +23,11 @@
 #include "test_serial.h"
 #include "test_event.h"
 #include "test_map_utils.h"
-#include "test_sys_class.h"
 #include "probe_tool.h"
 #include "net_client.h"
 #include "ftp_client.h"
 #include "ftpd/ftpd.h"
 #include "ftpd/ftpd_rtt.h"
-
-#include "config_list.h"
 
 #include "log.h"
 
@@ -59,34 +56,10 @@ int app_save_config(void)
 	return eeprom_save_config_item(eeprom_info, "eva", &app_info->mechine, sizeof(mechine_info_t), 0);
 }
 
-#define test_config_get(cls, key) do { \
-	debug("get cls:%u, key:%u, value:%p\n", cls, key, config_get_class_key_value(cls, key)); \
-} while(0)
-
-void test_config(void)
-{
-	config_init();
-
-	config_set_class_key_value(0, 1, (void *)1);
-	config_dump_class_key_value();
-	config_set_class_key_value(0, 2, (void *)1);
-	config_dump_class_key_value();
-	config_set_class_key_value(2, 1, (void *)1);
-	config_dump_class_key_value();
-	config_set_class_key_value(2, 2, (void *)1);
-	config_dump_class_key_value();
-	test_config_get(0, 1);
-	test_config_get(0, 2);
-	test_config_get(0, 3);
-	test_config_get(1, 3);
-	test_config_get(2, 2);
-}
-
 void app(void const *argument)
 {
 
 	poll_loop_t *poll_loop;
-	config_init();
 	mt_file_environment_init();
 
 	{

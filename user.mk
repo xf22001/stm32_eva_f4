@@ -42,7 +42,6 @@ USER_C_SOURCES += apps/modules/app/https.c
 USER_C_SOURCES += apps/modules/app/request_ws.c
 USER_C_SOURCES += apps/modules/app/ftp_client.c
 USER_C_SOURCES += apps/modules/app/net_callback.c
-USER_C_SOURCES += apps/modules/app/config_list.c
 #USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
 ##USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_ramdisk
 ##C_SOURCES := $(filter-out Middlewares/Third_Party/FatFs/src/diskio.c ,$(C_SOURCES))
@@ -66,12 +65,10 @@ USER_C_SOURCES += apps/modules/os/iap.c
 #USER_C_SOURCES += apps/modules/os/os_utils.c
 USER_C_SOURCES += apps/modules/os/net_utils.c
 USER_C_SOURCES += apps/modules/os/cpu_utils.c
-USER_C_SOURCES += apps/modules/os/sys_class.c
 USER_C_SOURCES += apps/modules/os/map_utils.c
 USER_C_SOURCES += apps/modules/tests/test_serial.c
 USER_C_SOURCES += apps/modules/tests/test_event.c
 USER_C_SOURCES += apps/modules/tests/test_map_utils.c
-USER_C_SOURCES += apps/modules/tests/test_sys_class.c
 
 USER_CFLAGS += -DtraceTASK_SWITCHED_IN=StartIdleMonitor -DtraceTASK_SWITCHED_OUT=EndIdleMonitor
 
