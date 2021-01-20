@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年01月18日 星期一 09时10分23秒
+ *   修改日期：2021年01月20日 星期三 11时07分04秒
  *   描    述：
  *
  *================================================================*/
@@ -35,7 +35,7 @@
 
 extern IWDG_HandleTypeDef hiwdg;
 extern TIM_HandleTypeDef htim4;
-extern UART_HandleTypeDef huart3;
+extern UART_HandleTypeDef huart1;
 extern SPI_HandleTypeDef hspi3;
 
 static app_info_t *app_info = NULL;
@@ -63,7 +63,7 @@ void app(void const *argument)
 	mt_file_environment_init();
 
 	{
-		uart_info_t *uart_info = get_or_alloc_uart_info(&huart3);
+		uart_info_t *uart_info = get_or_alloc_uart_info(&huart1);
 
 		if(uart_info == NULL) {
 			app_panic();
@@ -76,7 +76,7 @@ void app(void const *argument)
 	}
 
 	//{
-	//	uart_info_t *uart_info = get_or_alloc_uart_info(&huart3);
+	//	uart_info_t *uart_info = get_or_alloc_uart_info(&huart1);
 
 	//	if(uart_info == NULL) {
 	//		app_panic();
