@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2021年01月04日 星期一 13时31分30秒
+#   修改日期：2021年01月20日 星期三 11时43分05秒
 #   描    述：
 #
 #================================================================
@@ -54,10 +54,13 @@ USER_C_SOURCES += apps/modules/app/ftpd/ftpd_file_rtt.c
 USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_disk
 USER_C_SOURCES += apps/modules/app/ftpd/vfs_disk/vfs.c
 USER_C_SOURCES += apps/modules/app/mt_file.c
+USER_C_SOURCES += apps/modules/app/can_data_task.c
+USER_C_SOURCES += apps/modules/app/can_config.c
 USER_C_SOURCES += apps/modules/hardware/flash.c
 USER_C_SOURCES += apps/modules/hardware/eeprom.c
 USER_C_SOURCES += apps/modules/drivers/spi_txrx.c
 USER_C_SOURCES += apps/modules/drivers/usart_txrx.c
+USER_C_SOURCES += apps/modules/drivers/can_txrx.c
 USER_C_SOURCES += apps/modules/os/event_helper.c
 USER_C_SOURCES += apps/modules/os/callback_chain.c
 USER_C_SOURCES += apps/modules/os/bitmap_ops.c
@@ -69,6 +72,7 @@ USER_C_SOURCES += apps/modules/os/map_utils.c
 USER_C_SOURCES += apps/modules/tests/test_serial.c
 USER_C_SOURCES += apps/modules/tests/test_event.c
 USER_C_SOURCES += apps/modules/tests/test_map_utils.c
+USER_C_SOURCES += apps/modules/tests/test_can.c
 
 USER_CFLAGS += -DtraceTASK_SWITCHED_IN=StartIdleMonitor -DtraceTASK_SWITCHED_OUT=EndIdleMonitor
 

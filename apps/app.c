@@ -23,6 +23,7 @@
 #include "test_serial.h"
 #include "test_event.h"
 #include "test_map_utils.h"
+#include "test_can.h"
 #include "probe_tool.h"
 #include "net_client.h"
 #include "ftp_client.h"
@@ -148,6 +149,7 @@ void app(void const *argument)
 	//test_event();
 	//test_map_utils();
 	//test_sys_class();
+	test_can();
 
 	while(1) {
 		handle_open_log();
