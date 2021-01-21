@@ -211,14 +211,27 @@ void os_free(void *p)
 	xfree(p);
 }
 
+static char isr_log_buffer[LOG_BUFFER_SIZE];
+
+static int isr_log(const char *buffer, size_t size)
+{
+}
+
 int log_printf(log_fn_t log_fn, const char *fmt, ...)
 {
 	va_list ap;
 	int ret = -1;
-	char *log_buffer = (char *)os_alloc(LOG_BUFFER_SIZE);
+	char *log_buffer;
 
-	if(log_buffer == NULL) {
-		return ret;
+	if(__get_IPSR() != 0) {
+		log_buffer = isr_log_buffer;
+		log_fn = isr_log;
+	} else {
+		log_buffer = (char *)os_alloc(LOG_BUFFER_SIZE);
+
+		if(log_buffer == NULL) {
+			return ret;
+		}
 	}
 
 	va_start(ap, fmt);
@@ -233,7 +246,9 @@ int log_printf(log_fn_t log_fn, const char *fmt, ...)
 		ret = log_fn(log_buffer, ret);
 	}
 
-	os_free(log_buffer);
+	if(__get_IPSR() == 0) {
+		os_free(log_buffer);
+	}
 
 	return ret;
 }
@@ -453,6 +468,7 @@ unsigned int str_hash(const char *s)
 	const char *p = NULL;
 
 	p = s;
+
 	while(*p != 0) {
 		hash = (31 * hash) + tolower(*p);
 		p++;
