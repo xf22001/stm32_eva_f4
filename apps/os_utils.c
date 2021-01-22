@@ -215,6 +215,7 @@ static char isr_log_buffer[LOG_BUFFER_SIZE];
 
 static int isr_log(const char *buffer, size_t size)
 {
+	return size;
 }
 
 int log_printf(log_fn_t log_fn, const char *fmt, ...)

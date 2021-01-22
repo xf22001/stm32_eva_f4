@@ -144,15 +144,14 @@ void app(void const *argument)
 	//ftpd_init();
 	start_ftpd(NULL);
 
-	//test_config();
-	
 	//test_event();
 	//test_map_utils();
 	//test_sys_class();
-	test_can();
+	//test_can();
+	//test_soft_timer();
 
 	while(1) {
-		handle_open_log();
+		//handle_open_log();
 		osDelay(1000);
 	}
 }
