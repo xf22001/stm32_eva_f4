@@ -24,15 +24,17 @@
 #include "test_event.h"
 #include "test_map_utils.h"
 #include "test_can.h"
+#include "test_soft_timer.h"
+#include "usart_txrx.h"
 #include "probe_tool.h"
+#include "file_log.h"
+#include "uart_debug.h"
 #include "net_client.h"
 #include "ftp_client.h"
 #include "ftpd/ftpd.h"
 #include "ftpd/ftpd_rtt.h"
 
 #include "log.h"
-
-#include "file_log.h"
 
 extern IWDG_HandleTypeDef hiwdg;
 extern TIM_HandleTypeDef htim4;
@@ -62,6 +64,9 @@ void app(void const *argument)
 
 	poll_loop_t *poll_loop;
 	mt_file_environment_init();
+	add_log_handler((log_fn_t)log_uart_data);
+	add_log_handler((log_fn_t)log_udp_data);
+	add_log_handler((log_fn_t)log_file_data);
 
 	{
 		uart_info_t *uart_info = get_or_alloc_uart_info(&huart1);
