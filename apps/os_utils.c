@@ -6,7 +6,7 @@
  *   文件名称：os_utils.c
  *   创 建 者：肖飞
  *   创建日期：2019年11月13日 星期三 11时13分17秒
- *   修改日期：2021年01月29日 星期五 15时59分57秒
+ *   修改日期：2021年01月30日 星期六 09时32分13秒
  *   描    述：
  *
  *================================================================*/
@@ -28,7 +28,7 @@ typedef struct {
 
 typedef struct {
 	uint8_t init;
-	osMutexId os_utils_mutex;
+	os_mutex_t os_utils_mutex;
 	size_t size;
 	size_t count;
 	size_t max_size;
@@ -46,17 +46,137 @@ static mem_info_t mem_info = {
 	.os_utils_mutex = NULL,
 };
 
+void app_panic(void)
+{
+	while(1);
+}
+
+os_mutex_t mutex_create(void)
+{
+	os_mutex_t mutex = NULL;
+	osMutexDef(mutex);
+
+	mutex = osMutexCreate(osMutex(mutex));
+
+	return mutex;
+}
+
+void mutex_delete(os_mutex_t mutex)
+{
+	osStatus os_status;
+
+	if(mutex == NULL) {
+		app_panic();
+	}
+
+	os_status = osMutexDelete(mutex);
+
+	if(osOK != os_status) {
+		app_panic();
+	}
+}
+
+void mutex_lock(os_mutex_t mutex)
+{
+	osStatus os_status;
+
+	if(mutex == NULL) {
+		app_panic();
+	}
+
+	//os_status = osMutexWait(mutex, osWaitForever);
+	os_status = osMutexWait(mutex, 1000);
+
+	if(os_status != osOK) {
+		app_panic();
+	}
+}
+
+void mutex_unlock(os_mutex_t mutex)
+{
+	osStatus os_status;
+
+	if(mutex == NULL) {
+		app_panic();
+	}
+
+	os_status = osMutexRelease(mutex);
+
+	if(os_status != osOK) {
+		app_panic();
+	}
+}
+
+os_signal_t signal_create(void)
+{
+	os_signal_t signal = NULL;
+	osMessageQDef(signal, 1, uint16_t);
+
+	signal = osMessageCreate(osMessageQ(signal), NULL);
+
+	return signal;
+}
+
+void signal_delete(os_signal_t signal)
+{
+	osStatus os_status;
+
+	if(signal == NULL) {
+		app_panic();
+	}
+
+	os_status = osMessageDelete(signal);
+
+	if(osOK != os_status) {
+		app_panic();
+	}
+}
+
+int signal_wait(os_signal_t signal, uint32_t timeout)
+{
+	int ret = -1;
+
+	if(signal == NULL) {
+		app_panic();
+	}
+
+	osEvent event = osMessageGet(signal, timeout);
+
+	if(event.status == osEventMessage) {
+		ret = 0;
+	}
+
+	return ret;
+}
+
+int signal_send(os_signal_t signal)
+{
+	int ret = -1;
+	osStatus os_status;
+
+	if(signal == NULL) {
+		app_panic();
+	}
+
+	os_status = osMessagePut(signal, 0, 0);
+
+	if(os_status == osOK) {
+		ret = 0;
+	}
+
+	return ret;
+}
+
 static int init_mem_info(void)
 {
 	int ret = -1;
-	osMutexDef(os_utils_mutex);
 
 	if(mem_info.init == 1) {
 		ret = 0;
 		return ret;
 	}
 
-	mem_info.os_utils_mutex = osMutexCreate(osMutex(os_utils_mutex));
+	mem_info.os_utils_mutex = mutex_create();
 
 	if(mem_info.os_utils_mutex == NULL) {
 		app_panic();
@@ -75,17 +195,13 @@ static int init_mem_info(void)
 
 static void *xmalloc(size_t size)
 {
-	osStatus os_status;
 	mem_node_info_t *mem_node_info;
 
 	__disable_irq();
 	init_mem_info();
 	__enable_irq();
 
-	os_status = osMutexWait(mem_info.os_utils_mutex, osWaitForever);
-
-	if(os_status != osOK) {
-	}
+	mutex_lock(mem_info.os_utils_mutex);
 
 	mem_node_info = (mem_node_info_t *)malloc(sizeof(mem_node_info_t) + size);
 
@@ -101,26 +217,18 @@ static void *xmalloc(size_t size)
 		list_add_tail(&mem_node_info->list, &mem_info.mem_info_list);
 	}
 
-	os_status = osMutexRelease(mem_info.os_utils_mutex);
-
-	if(os_status != osOK) {
-	}
+	mutex_unlock(mem_info.os_utils_mutex);
 
 	return (mem_node_info != NULL) ? (mem_node_info + 1) : NULL;
 }
 
 static void xfree(void *p)
 {
-	osStatus os_status;
-
 	__disable_irq();
 	init_mem_info();
 	__enable_irq();
 
-	os_status = osMutexWait(mem_info.os_utils_mutex, osWaitForever);
-
-	if(os_status != osOK) {
-	}
+	mutex_lock(mem_info.os_utils_mutex);
 
 	if(p != NULL) {
 		mem_node_info_t *mem_node_info = (mem_node_info_t *)p;
@@ -134,15 +242,11 @@ static void xfree(void *p)
 		free(mem_node_info);
 	}
 
-	os_status = osMutexRelease(mem_info.os_utils_mutex);
-
-	if(os_status != osOK) {
-	}
+	mutex_unlock(mem_info.os_utils_mutex);
 }
 
 void get_mem_info(size_t *size, size_t *count, size_t *max_size)
 {
-	osStatus os_status;
 	mem_node_info_t *mem_node_info;
 	struct list_head *head;
 
@@ -154,10 +258,7 @@ void get_mem_info(size_t *size, size_t *count, size_t *max_size)
 	init_mem_info();
 	__enable_irq();
 
-	os_status = osMutexWait(mem_info.os_utils_mutex, osWaitForever);
-
-	if(os_status != osOK) {
-	}
+	mutex_lock(mem_info.os_utils_mutex);
 
 	*size = mem_info.size;
 	*count = mem_info.count;
@@ -168,10 +269,7 @@ void get_mem_info(size_t *size, size_t *count, size_t *max_size)
 	list_for_each_entry(mem_node_info, head, mem_node_info_t, list) {
 	}
 
-	os_status = osMutexRelease(mem_info.os_utils_mutex);
-
-	if(os_status != osOK) {
-	}
+	mutex_unlock(mem_info.os_utils_mutex);
 }
 
 extern uint32_t _Min_Heap_Size;
@@ -192,11 +290,6 @@ void *os_alloc(size_t size)
 void os_free(void *p)
 {
 	xfree(p);
-}
-
-void app_panic(void)
-{
-	while(1);
 }
 
 unsigned char mem_is_set(char *values, size_t size, char value)

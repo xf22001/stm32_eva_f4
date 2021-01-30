@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年01月20日 星期三 11时07分04秒
+ *   修改日期：2021年01月29日 星期五 16时59分06秒
  *   描    述：
  *
  *================================================================*/
@@ -97,9 +97,6 @@ void app(void const *argument)
 	if(poll_loop == NULL) {
 		app_panic();
 	}
-
-	osThreadDef(poll_loop, task_poll_loop, osPriorityNormal, 0, 128 * 2 * 8);
-	osThreadCreate(osThread(poll_loop), poll_loop);
 
 	probe_broadcast_add_poll_loop(poll_loop);
 	probe_server_add_poll_loop(poll_loop);
