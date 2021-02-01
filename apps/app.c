@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年01月29日 星期五 16时59分06秒
+ *   修改日期：2021年02月01日 星期一 13时15分05秒
  *   描    述：
  *
  *================================================================*/
@@ -168,36 +168,36 @@ static void update_work_led(void)
 {
 	static compare_count_type_t type = PWM_COMPARE_COUNT_UP;
 	static uint16_t duty_cycle = 0;
-	static uint16_t keep_count = 0;
+	static uint16_t keep_count = 1000;
 	//计数值小于duty_cycle,输出1;大于duty_cycle输出0
 
 	switch(type) {
-		case PWM_COMPARE_COUNT_UP: {
+		case PWM_COMPARE_COUNT_UP: {//慢慢灭
 
 			if(duty_cycle < 1000) {
-				duty_cycle += 5;
+				duty_cycle += 8;
+			} else {
+				type = PWM_COMPARE_COUNT_DOWN;
+			}
+		}
+		break;
+
+		case PWM_COMPARE_COUNT_DOWN: {//快速亮
+			if(duty_cycle > 0) {
+				duty_cycle -= 20;
 			} else {
 				type = PWM_COMPARE_COUNT_KEEP;
 			}
-		}
-		break;
-
-		case PWM_COMPARE_COUNT_DOWN: {
-			if(duty_cycle > 0) {
-				duty_cycle -= 5;
-			} else {
-				type = PWM_COMPARE_COUNT_UP;
-			}
 
 		}
 		break;
 
-		case PWM_COMPARE_COUNT_KEEP: {
+		case PWM_COMPARE_COUNT_KEEP: {//保持亮
 			if(keep_count < duty_cycle) {
-				keep_count += 10;
+				keep_count -= 200;
 			} else {
 				keep_count = 0;
-				type = PWM_COMPARE_COUNT_DOWN;
+				type = PWM_COMPARE_COUNT_UP;//慢慢灭
 			}
 
 		}
@@ -218,6 +218,6 @@ void idle(void const *argument)
 	while(1) {
 		HAL_IWDG_Refresh(&hiwdg);
 		update_work_led();
-		osDelay(1);
+		osDelay(10);
 	}
 }
