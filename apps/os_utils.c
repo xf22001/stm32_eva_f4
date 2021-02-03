@@ -167,6 +167,65 @@ int signal_send(os_signal_t signal, uint32_t timeout)
 	return ret;
 }
 
+os_sem_t sem_create(int32_t value)
+{
+	os_sem_t sem = NULL;
+	osSemaphoreDef(sem);
+
+	sem = osSemaphoreCreate(osSemaphore(sem), value);
+
+	return sem;
+}
+
+void sem_delete(os_sem_t sem)
+{
+	osStatus os_status;
+
+	if(sem == NULL) {
+		app_panic();
+	}
+
+	os_status = osSemaphoreDelete(sem);
+
+	if(os_status == osOK) {
+		app_panic();
+	}
+}
+
+int sem_take(os_sem_t sem, uint32_t timeout)
+{
+	int ret = -1;
+	osStatus os_status;
+
+	if(sem == NULL) {
+		app_panic();
+	}
+
+	os_status = osSemaphoreWait(sem, timeout);
+
+	if(os_status == osOK) {
+		ret = 0;
+	}
+	return ret;
+}
+
+int sem_release(os_sem_t sem)
+{
+	int ret = -1;
+	osStatus os_status;
+
+	if(sem == NULL) {
+		app_panic();
+	}
+
+	os_status = osSemaphoreRelease(sem);
+
+	if(os_status == osOK) {
+		ret = 0;
+	}
+	return ret;
+}
+
 static int init_mem_info(void)
 {
 	int ret = -1;
