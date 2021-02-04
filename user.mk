@@ -25,9 +25,9 @@ C_INCLUDES += $(USER_C_INCLUDES)
 USER_C_SOURCES += apps/app.c
 USER_C_SOURCES += apps/probe_tool_handler.c
 USER_C_SOURCES += apps/uart_debug_handler.c
-USER_C_SOURCES += apps/modules/app/eeprom_config.c
 USER_C_SOURCES += apps/os_memory.c
 
+USER_C_SOURCES += apps/modules/app/eeprom_config.c
 USER_C_SOURCES += apps/modules/app/poll_loop.c
 USER_C_SOURCES += apps/modules/app/probe_tool.c
 USER_C_SOURCES += apps/modules/app/uart_debug.c
