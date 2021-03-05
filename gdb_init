@@ -58,5 +58,13 @@ b app
 #		c
 #	end
 
-monitor reset
+b isr_log
+	commands
+		silent
+		printf "%s\n", buffer
+		c
+	end
+
+
+#monitor reset
 continue

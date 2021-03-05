@@ -154,9 +154,9 @@ function main() {
 	fi	
 
 	if [ $debug -eq 1 ];then
-		gen_jlink_script_debug
-		JLinkExe -Device "STM32F407VE" -IF "$link_if" -JTAGConf "-1,-1" -Speed "4000" -CommanderScript "$jlink_script"
-		rm "$jlink_script"
+		#gen_jlink_script_debug
+		#JLinkExe -Device "STM32F407VE" -IF "$link_if" -JTAGConf "-1,-1" -Speed "4000" -CommanderScript "$jlink_script"
+		#rm "$jlink_script"
 		JLinkGDBServer -select USB -device STM32F407VE -endian little -if $link_if -speed 2000 -noir -noLocalhostOnly
 	fi
 }
