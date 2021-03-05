@@ -58,7 +58,7 @@ b app
 #		c
 #	end
 
-b isr_log
+b dummy_log
 	commands
 		silent
 		printf "%s\n", buffer
