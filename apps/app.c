@@ -95,7 +95,7 @@ void app(void const *argument)
 	//	osDelay(1);
 	//}
 
-	debug("===========================================start app============================================\n");
+	debug("===========================================start app============================================");
 
 	app_info = (app_info_t *)os_alloc(sizeof(app_info_t));
 
@@ -116,16 +116,16 @@ void app(void const *argument)
 	}
 
 	if(app_load_config() == 0) {
-		debug("app_load_config successful!\n");
-		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
+		debug("app_load_config successful!");
+		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
 		app_info->available = 1;
 	} else {
-		debug("app_load_config failed!\n");
+		debug("app_load_config failed!");
 		snprintf(app_info->mechine.device_id, sizeof(app_info->mechine.device_id), "%s", "0000000000");
 		snprintf(app_info->mechine.host, sizeof(app_info->mechine.host), "%s", "112.74.40.227");
 		snprintf(app_info->mechine.port, sizeof(app_info->mechine.port), "%s", "12345");
 		snprintf(app_info->mechine.path, sizeof(app_info->mechine.path), "%s", "");
-		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
+		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
 		app_save_config();
 		app_info->available = 1;
 	}

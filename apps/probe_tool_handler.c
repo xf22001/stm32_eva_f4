@@ -381,7 +381,7 @@ static void fn11(request_t *request)
 
 	os_free(buffer);
 
-	debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
+	debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
 
 	set_client_state(net_client_info, CLIENT_REINIT);
 }
@@ -406,10 +406,10 @@ static void fn12(request_t *request)
 
 	ret = sscanf(content, "%d %s %s %s %s %s %n", &fn, ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password, &catched);
 
-	debug("ret:%d\n", ret);
+	debug("ret:%d", ret);
 
 	if((ret == 6) || (ret == 5)) {
-		debug("server host:\'%s\', server port:\'%s\', path\'%s\', user:\'%s\', password\'%s\'\n", ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password);
+		debug("server host:\'%s\', server port:\'%s\', path\'%s\', user:\'%s\', password\'%s\'", ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password);
 		request_ftp_client_download(ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password);
 	}
 
