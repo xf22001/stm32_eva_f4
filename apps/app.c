@@ -36,6 +36,8 @@
 
 #include "log.h"
 
+#include "duty_cycle_pattern.h"
+
 extern IWDG_HandleTypeDef hiwdg;
 extern TIM_HandleTypeDef htim4;
 extern UART_HandleTypeDef huart1;
@@ -150,55 +152,15 @@ void app(void const *argument)
 	}
 }
 
-typedef enum {
-	PWM_COMPARE_COUNT_UP = 0,
-	PWM_COMPARE_COUNT_DOWN,
-	PWM_COMPARE_COUNT_KEEP,
-} compare_count_type_t;
+static pattern_state_t work_pattern_state = {
+	.type = PWM_COMPARE_COUNT_UP,
+	.duty_cycle = 0,
+};
 
 static void update_work_led(void)
 {
-	static compare_count_type_t type = PWM_COMPARE_COUNT_UP;
-	static uint16_t duty_cycle = 0;
-	static uint16_t keep_count = 1000;
 	//计数值小于duty_cycle,输出1;大于duty_cycle输出0
-
-	switch(type) {
-		case PWM_COMPARE_COUNT_UP: {//慢慢灭
-
-			if(duty_cycle < 1000) {
-				duty_cycle += 8;
-			} else {
-				type = PWM_COMPARE_COUNT_DOWN;
-			}
-		}
-		break;
-
-		case PWM_COMPARE_COUNT_DOWN: {//快速亮
-			if(duty_cycle > 0) {
-				duty_cycle -= 20;
-			} else {
-				type = PWM_COMPARE_COUNT_KEEP;
-			}
-
-		}
-		break;
-
-		case PWM_COMPARE_COUNT_KEEP: {//保持亮
-			if(keep_count > duty_cycle) {
-				keep_count -= 200;
-			} else {
-				keep_count = 1000;
-				type = PWM_COMPARE_COUNT_UP;//慢慢灭
-			}
-
-		}
-		break;
-
-		default:
-			break;
-	}
-
+	uint16_t duty_cycle = get_duty_cycle_pattern(&work_pattern_state, 1000, 0, 20);
 	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, duty_cycle);
 }
 
