@@ -66,7 +66,6 @@ void app(void const *argument)
 {
 
 	poll_loop_t *poll_loop;
-	mt_file_environment_init();
 	add_log_handler((log_fn_t)log_uart_data);
 	add_log_handler((log_fn_t)log_udp_data);
 	add_log_handler((log_fn_t)log_file_data);

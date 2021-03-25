@@ -27,9 +27,7 @@
 
 /* USER CODE BEGIN Includes */
 
-#include "mt_file.h"
-#include "file_log.h"
-#include "vfs.h"
+#include "usbh_user_callback.h"
 
 /* USER CODE END Includes */
 
@@ -100,6 +98,7 @@ void MX_USB_HOST_Init(void)
 static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 {
   /* USER CODE BEGIN CALL_BACK_1 */
+  usbh_user_callback(phost, id);
   switch(id)
   {
   case HOST_USER_SELECT_CONFIGURATION:
@@ -107,24 +106,10 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_DISCONNECTION:
   Appli_state = APPLICATION_DISCONNECT;
-  {
-	int ret = mt_f_mount(0, "", 0);
-
-	if(ret != FR_OK) {
-	}
-	try_to_close_log();
-  }
   break;
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
-  {
-	FATFS *pfs = get_vfs_fs();
-	int ret = mt_f_mount(pfs, "", 0);
-
-	if(ret != FR_OK) {
-	}
-  }
   break;
 
   case HOST_USER_CONNECTION:
