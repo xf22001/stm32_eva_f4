@@ -12,6 +12,7 @@
  *================================================================*/
 #include "uart_debug_handler.h"
 #include "test_event.h"
+#include "iap.h"
 
 #define LOG_UART
 #include "log.h"
@@ -31,7 +32,6 @@ static void fn5(char *arguments)
 {
 	int size = xPortGetFreeHeapSize();
 	uint8_t *os_thread_info;
-	uint8_t is_app = 0;
 	uint32_t ticks = osKernelSysTick();
 	uint16_t cpu_usage = osGetCPUUsage();
 	size_t total_heap_size = get_total_heap_size();
@@ -39,9 +39,6 @@ static void fn5(char *arguments)
 	size_t heap_count;
 	size_t heap_max_size;
 
-#if defined(USER_APP)
-	is_app = 1;
-#endif
 	get_mem_info(&heap_size, &heap_count,  &heap_max_size);
 
 	_printf("cpu usage:%d\n", cpu_usage);
@@ -78,7 +75,7 @@ static void fn5(char *arguments)
 
 	os_free(os_thread_info);
 
-	if(is_app) {
+	if(is_app() == 1) {
 		_printf("in app!\n");
 	} else {
 		_printf("in bootloader!\n");

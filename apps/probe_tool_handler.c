@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年12月30日 星期三 16时00分04秒
+ *   修改日期：2021年05月10日 星期一 11时16分07秒
  *   描    述：
  *
  *================================================================*/
@@ -47,14 +47,9 @@ static void fn3(request_t *request)
 	uint32_t total_size = request->header.total_size;
 	uint32_t stage = request->payload.stage;
 	uint8_t *data = (uint8_t *)(request + 1);
-	uint8_t is_app = 0;
 	uint8_t start_app = 0;
 
-#if defined(USER_APP)
-	is_app = 1;
-#endif
-
-	if(is_app == 1) {
+	if(is_app() == 1) {
 		uint8_t flag = 0x00;
 		flash_write(APP_CONFIG_ADDRESS, &flag, 1);
 		_printf("in app, reset for upgrade!\n");
@@ -194,7 +189,6 @@ static void fn5(request_t *request)
 {
 	int size = xPortGetFreeHeapSize();
 	uint8_t *os_thread_info;
-	uint8_t is_app = 0;
 	uint32_t ticks = osKernelSysTick();
 	uint16_t cpu_usage = osGetCPUUsage();
 	size_t total_heap_size = get_total_heap_size();
@@ -202,9 +196,6 @@ static void fn5(request_t *request)
 	size_t heap_count;
 	size_t heap_max_size;
 
-#if defined(USER_APP)
-	is_app = 1;
-#endif
 	get_mem_info(&heap_size, &heap_count,  &heap_max_size);
 
 	_printf("cpu usage:%d\n", cpu_usage);
@@ -241,7 +232,7 @@ static void fn5(request_t *request)
 
 	os_free(os_thread_info);
 
-	if(is_app) {
+	if(is_app() == 1) {
 		_printf("in app!\n");
 	} else {
 		_printf("in bootloader!\n");

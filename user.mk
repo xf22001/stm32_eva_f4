@@ -17,6 +17,7 @@ USER_C_INCLUDES += -Iapps/modules/os
 USER_C_INCLUDES += -Iapps/modules/drivers
 USER_C_INCLUDES += -Iapps/modules/hardware
 USER_C_INCLUDES += -Iapps/modules/app
+USER_C_INCLUDES += -Iapps/modules/app/vfs_disk
 USER_C_INCLUDES += -Iapps/modules/app/ftpd
 USER_C_INCLUDES += -Iapps/modules/tests
 
@@ -26,6 +27,8 @@ USER_C_SOURCES += apps/app.c
 USER_C_SOURCES += apps/probe_tool_handler.c
 USER_C_SOURCES += apps/uart_debug_handler.c
 USER_C_SOURCES += apps/os_memory.c
+USER_C_SOURCES += apps/early_sys_callback.c
+USER_C_SOURCES += apps/usbh_user_callback.c
 
 USER_C_SOURCES += apps/modules/app/eeprom_config.c
 USER_C_SOURCES += apps/modules/app/poll_loop.c
@@ -42,28 +45,24 @@ USER_C_SOURCES += apps/modules/app/https.c
 USER_C_SOURCES += apps/modules/app/request_ws.c
 USER_C_SOURCES += apps/modules/app/ftp_client.c
 USER_C_SOURCES += apps/modules/app/net_callback.c
-#USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
-##USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_ramdisk
+USER_C_SOURCES += apps/modules/app/vfs_disk/vfs.c
 ##C_SOURCES := $(filter-out Middlewares/Third_Party/FatFs/src/diskio.c ,$(C_SOURCES))
-##USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/vfs.c
-##USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/pseudo_disk_io.c
-#USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_disk
-#USER_C_SOURCES += apps/modules/app/ftpd/vfs_disk/vfs.c
+##USER_C_SOURCES += apps/modules/app/vfs_ramdisk/pseudo_disk_io.c
+#USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
 USER_C_SOURCES += apps/modules/app/ftpd/ftpd_rtt.c
 USER_C_SOURCES += apps/modules/app/ftpd/ftpd_file_rtt.c
-USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_disk
-USER_C_SOURCES += apps/modules/app/ftpd/vfs_disk/vfs.c
 USER_C_SOURCES += apps/modules/app/mt_file.c
 USER_C_SOURCES += apps/modules/app/can_data_task.c
 USER_C_SOURCES += apps/modules/app/can_config.c
 USER_C_SOURCES += apps/modules/app/duty_cycle_pattern.c
 USER_C_SOURCES += apps/modules/app/usbh_user_callback.c
 USER_C_SOURCES += apps/modules/app/early_sys_callback.c
+USER_C_SOURCES += apps/modules/app/usb_upgrade.c
 USER_C_SOURCES += apps/modules/hardware/flash.c
 USER_C_SOURCES += apps/modules/hardware/eeprom.c
 USER_C_SOURCES += apps/modules/drivers/spi_txrx.c
-USER_C_SOURCES += apps/modules/drivers/usart_txrx.c
 USER_C_SOURCES += apps/modules/drivers/can_txrx.c
+USER_C_SOURCES += apps/modules/drivers/usart_txrx.c
 USER_C_SOURCES += apps/modules/os/event_helper.c
 USER_C_SOURCES += apps/modules/os/callback_chain.c
 USER_C_SOURCES += apps/modules/os/bitmap_ops.c
@@ -80,9 +79,9 @@ USER_C_SOURCES += apps/modules/tests/test_can.c
 USER_C_SOURCES += apps/modules/tests/test_soft_timer.c
 USER_C_SOURCES += apps/modules/tests/test_object_class.c
 
-USER_CFLAGS += -DtraceTASK_SWITCHED_IN=StartIdleMonitor -DtraceTASK_SWITCHED_OUT=EndIdleMonitor
-
 C_SOURCES += $(USER_C_SOURCES)
+
+USER_CFLAGS += -DtraceTASK_SWITCHED_IN=StartIdleMonitor -DtraceTASK_SWITCHED_OUT=EndIdleMonitor
 
 CFLAGS += $(USER_CFLAGS)
 LDFLAGS += -u _printf_float

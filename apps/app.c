@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年02月07日 星期日 15时22分32秒
+ *   修改日期：2021年03月23日 星期二 10时22分38秒
  *   描    述：
  *
  *================================================================*/
@@ -31,8 +31,8 @@
 #include "uart_debug.h"
 #include "net_client.h"
 #include "ftp_client.h"
-#include "ftpd/ftpd.h"
 #include "ftpd/ftpd_rtt.h"
+#include "usb_upgrade.h"
 
 #include "log.h"
 
@@ -46,6 +46,7 @@ extern SPI_HandleTypeDef hspi3;
 
 static app_info_t *app_info = NULL;
 static eeprom_info_t *eeprom_info = NULL;
+static os_signal_t app_event = NULL;
 
 app_info_t *get_app_info(void)
 {
@@ -60,6 +61,16 @@ static int app_load_config(void)
 int app_save_config(void)
 {
 	return eeprom_save_config_item(eeprom_info, "eva", &app_info->mechine, sizeof(mechine_info_t), 0);
+}
+
+void app_init(void)
+{
+	app_event = signal_create(1);
+}
+
+void send_app_event(app_event_t event)
+{
+	signal_send(app_event, event, 0);
 }
 
 void app(void const *argument)
@@ -98,13 +109,9 @@ void app(void const *argument)
 
 	debug("===========================================start app============================================");
 
-	app_info = (app_info_t *)os_alloc(sizeof(app_info_t));
+	app_info = (app_info_t *)os_calloc(1, sizeof(app_info_t));
 
-	if(app_info == NULL) {
-		app_panic();
-	}
-
-	memset(app_info, 0, sizeof(app_info_t));
+	OS_ASSERT(app_info != NULL);
 
 	eeprom_info = get_or_alloc_eeprom_info(get_or_alloc_spi_info(&hspi3),
 	                                       spi3_cs_GPIO_Port,
@@ -112,9 +119,7 @@ void app(void const *argument)
 	                                       spi3_wp_GPIO_Port,
 	                                       spi3_wp_Pin);
 
-	if(eeprom_info == NULL) {
-		app_panic();
-	}
+	OS_ASSERT(eeprom_info != NULL);
 
 	if(app_load_config() == 0) {
 		debug("app_load_config successful!");
@@ -127,6 +132,7 @@ void app(void const *argument)
 		snprintf(app_info->mechine.port, sizeof(app_info->mechine.port), "%s", "12345");
 		snprintf(app_info->mechine.path, sizeof(app_info->mechine.path), "%s", "");
 		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
+		app_info->mechine.upgrade_enable = 0;
 		app_save_config();
 		app_info->available = 1;
 	}
@@ -146,8 +152,24 @@ void app(void const *argument)
 	//test_serial(&huart3);
 
 	while(1) {
+		uint32_t event;
+		int ret = signal_wait(app_event, &event, 1000);
+
+		if(ret == 0) {
+			switch(event) {
+				case APP_EVENT_USB: {
+					start_usb_upgrade();
+				}
+				break;
+
+				default: {
+				}
+				break;
+			}
+		}
+
 		//handle_open_log();
-		osDelay(1000);
+		handle_usb_upgrade();
 	}
 }
 
