@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2021年02月04日 星期四 10时52分25秒
+#   修改日期：2021年05月10日 星期一 15时08分32秒
 #   描    述：
 #
 #================================================================
@@ -47,7 +47,7 @@ USER_C_SOURCES += apps/modules/app/ftp_client.c
 USER_C_SOURCES += apps/modules/app/net_callback.c
 USER_C_SOURCES += apps/modules/app/vfs_disk/vfs.c
 ##C_SOURCES := $(filter-out Middlewares/Third_Party/FatFs/src/diskio.c ,$(C_SOURCES))
-##USER_C_SOURCES += apps/modules/app/vfs_ramdisk/pseudo_disk_io.c
+##USER_C_SOURCES += apps/modules/app/vfs_disk/pseudo_disk_io.c
 #USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
 USER_C_SOURCES += apps/modules/app/ftpd/ftpd_rtt.c
 USER_C_SOURCES += apps/modules/app/ftpd/ftpd_file_rtt.c
