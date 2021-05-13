@@ -20,6 +20,7 @@
 #include "iwdg.h"
 
 #include "os_utils.h"
+#include "eeprom_layout.h"
 #include "test_serial.h"
 #include "test_event.h"
 #include "test_can.h"
@@ -55,12 +56,18 @@ app_info_t *get_app_info(void)
 
 static int app_load_config(void)
 {
-	return eeprom_load_config_item(eeprom_info, "eva", &app_info->mechine, sizeof(mechine_info_t), 0);
+	eeprom_layout_t *eeprom_layout = get_eeprom_layout();
+	size_t offset = (size_t)&eeprom_layout->mechine_info.mechine;
+	debug("offset:%d", offset);
+	return eeprom_load_config_item(eeprom_info, "eva", &app_info->mechine, sizeof(mechine_info_t), offset);
 }
 
 int app_save_config(void)
 {
-	return eeprom_save_config_item(eeprom_info, "eva", &app_info->mechine, sizeof(mechine_info_t), 0);
+	eeprom_layout_t *eeprom_layout = get_eeprom_layout();
+	size_t offset = (size_t)&eeprom_layout->mechine_info.mechine;
+	debug("offset:%d", offset);
+	return eeprom_save_config_item(eeprom_info, "eva", &app_info->mechine, sizeof(mechine_info_t), offset);
 }
 
 void app_init(void)
