@@ -45,11 +45,6 @@ typedef struct {
 	mechine_info_t mechine;
 } app_info_t;
 
-typedef struct {
-	eeprom_config_item_head_t head;
-	mechine_info_t mechine;
-} eeprom_app_info_t;
-
 #pragma pack(pop)
 
 typedef enum {
