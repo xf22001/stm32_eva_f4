@@ -20,8 +20,6 @@ extern "C"
 #include "app_platform.h"
 #include "cmsis_os.h"
 
-#include "eeprom_config.h"
-
 #ifdef __cplusplus
 }
 #endif
